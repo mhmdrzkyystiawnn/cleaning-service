@@ -1,58 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Cleaning Service
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web layanan kebersihan berbasis Laravel untuk:
+- menampilkan layanan, katalog paket, FAQ, dan halaman informasi publik,
+- melakukan booking oleh user terdaftar,
+- mengelola paket, booking, dan FAQ melalui panel admin.
 
-## About Laravel
+## Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.3+
+- Laravel 13
+- MySQL
+- Vite + Tailwind CSS + Alpine.js
+- Pest (testing)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Publik
+- Landing page dengan daftar layanan dan paket unggulan
+- Halaman About
+- Katalog paket
+- Detail paket
+- FAQ
 
-## Learning Laravel
+### User (autentikasi)
+- Register / login / logout / reset password
+- Buat booking paket
+- Lihat daftar booking pribadi
+- Lihat detail booking
+- Batalkan booking (kecuali booking yang sudah `completed`)
+- Kelola profil
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Admin
+- Dashboard statistik booking
+- CRUD paket
+- Manajemen status booking (`pending`, `confirmed`, `completed`, `cancelled`)
+- CRUD FAQ
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Instalasi & Menjalankan Project
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+1. Clone repository.
+2. Install dependency backend:
+   ```bash
+   composer install
+   ```
+3. Install dependency frontend:
+   ```bash
+   npm install
+   ```
+4. Buat file environment:
+   ```bash
+   cp .env.example .env
+   ```
+5. Atur konfigurasi database di `.env` (default project ini: MySQL dengan nama DB `cleaning_service`).
+6. Generate app key:
+   ```bash
+   php artisan key:generate
+   ```
+7. Migrasi dan seed data:
+   ```bash
+   php artisan migrate --seed
+   ```
+8. Jalankan aplikasi:
+   ```bash
+   composer run dev
+   ```
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
+Alternatif setup cepat:
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer run setup
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Akun Seed Default
 
-## Contributing
+Setelah `php artisan migrate --seed`, tersedia akun:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Admin  
+  Email: `admin@cleaningservice.com`  
+  Password: `password123`
 
-## Code of Conduct
+- User  
+  Email: `test@example.com`  
+  Password: `password123`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Menjalankan Test
 
-## Security Vulnerabilities
+```bash
+composer test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Struktur Route Utama
 
-## License
+- Publik: `/`, `/about`, `/katalog`, `/faq`, `/package/{id}`
+- User: `/booking/*`, `/bookings`, `/dashboard`, `/profile`
+- Admin: prefix `/admin/*` dengan middleware `auth` + `admin`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Catatan Audit README
+
+README sebelumnya masih template default Laravel dan belum menggambarkan fungsi project ini.  
+README ini sudah disesuaikan dengan fitur, alur setup, akun seed, dan route yang ada di codebase saat ini.
